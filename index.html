@@ -1,22 +1,29 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>AI Chat</title>
+  <title>AI Assistant</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <div class="app">
-  <div class="header">AI Assistant</div>
+<div class="layout">
+  <div class="sidebar">
+    <div class="logo">AI Chat</div>
+    <button class="newchat">+ New Chat</button>
+  </div>
 
-  <div id="messages"></div>
+  <div class="main">
+    <div class="topbar">Assistant</div>
 
-  <div class="input-area">
-    <input id="input" placeholder="Message..." />
-    <button onclick="send()">Send</button>
+    <div id="messages"></div>
+
+    <div class="inputbar">
+      <input id="input" placeholder="Message..." />
+      <button onclick="send()">Send</button>
+    </div>
   </div>
 </div>
 
-  <script src="script.js"></script>
+<script src="script.js"></script>
 </body>
 </html>
