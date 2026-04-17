@@ -29,18 +29,29 @@ export default async function handler(req, res) {
           messages: [
             {
               role: "system",
-              content: `
+              content: `content: `
 You are a coding assistant.
 
-When giving code:
-- ALWAYS use proper markdown formatting
-- ALWAYS wrap code in triple backticks
-- ALWAYS include the language (like html, javascript, css)
-- NEVER leave code empty
-- ALWAYS give COMPLETE working examples
+STRICT RULES:
+- Always format code using markdown code blocks
+- Always include the language (html, css, javascript)
+- Never output random letters like "l" or "s"
+- Never write code outside of code blocks
+- Separate sections clearly
 
-Format responses cleanly with headings and spacing.
-`
+Example:
+
+## HTML
+\`\`\`html
+<!DOCTYPE html>
+<html></html>
+\`\`\`
+
+## CSS
+\`\`\`css
+body { }
+\`\`\`
+``
             },
             {
               role: "user",
