@@ -5,8 +5,20 @@ async function send() {
   const text = input.value;
   if (!text) return;
 
-  messages.innerHTML += `<div><b>You:</b> ${text}</div>`;
+  // USER MESSAGE
+  messages.innerHTML += `
+    <div class="msg user">${text}</div>
+  `;
+
   input.value = "";
+
+  // loading bubble
+  const loading = document.createElement("div");
+  loading.className = "msg ai";
+  loading.textContent = "Thinking...";
+  messages.appendChild(loading);
+
+  messages.scrollTop = messages.scrollHeight;
 
   const res = await fetch("/api/chat", {
     method: "POST",
@@ -18,6 +30,6 @@ async function send() {
 
   const data = await res.json();
 
-  messages.innerHTML += `<div><b>AI:</b> ${data.reply}</div>`;
+  loading.textContent = data.reply;
   messages.scrollTop = messages.scrollHeight;
 }
