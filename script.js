@@ -2,21 +2,28 @@ async function send() {
   const input = document.getElementById("input");
   const messages = document.getElementById("messages");
 
-  const text = input.value;
+  const text = input.value.trim();
   if (!text) return;
 
-  // USER MESSAGE
+  // user message
   messages.innerHTML += `
-    <div class="msg user">${text}</div>
+    <div class="row user">
+      <div class="bubble">${text}</div>
+    </div>
   `;
 
   input.value = "";
 
-  // loading bubble
-  const loading = document.createElement("div");
-  loading.className = "msg ai";
-  loading.textContent = "Thinking...";
-  messages.appendChild(loading);
+  // AI placeholder
+  const aiRow = document.createElement("div");
+  aiRow.className = "row ai";
+
+  const bubble = document.createElement("div");
+  bubble.className = "bubble";
+  bubble.textContent = "Thinking...";
+
+  aiRow.appendChild(bubble);
+  messages.appendChild(aiRow);
 
   messages.scrollTop = messages.scrollHeight;
 
@@ -30,6 +37,6 @@ async function send() {
 
   const data = await res.json();
 
-  loading.textContent = data.reply;
+  bubble.textContent = data.reply;
   messages.scrollTop = messages.scrollHeight;
 }
