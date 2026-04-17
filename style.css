@@ -1,35 +1,88 @@
 body {
   margin: 0;
-  font-family: Arial;
-  background: #0f0f0f;
+  font-family: system-ui, Arial;
+  background: #0b0f19;
   color: white;
 }
 
+/* layout */
 .app {
-  max-width: 600px;
+  max-width: 800px;
   margin: auto;
-  padding: 20px;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
+/* header */
+h1 {
+  text-align: center;
+  padding: 15px;
+  font-size: 20px;
+  border-bottom: 1px solid #1c2333;
+  color: #8ab4ff;
+}
+
+/* chat area */
 #messages {
-  height: 70vh;
+  flex: 1;
   overflow-y: auto;
-  border: 1px solid #333;
-  padding: 10px;
-  margin-bottom: 10px;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
+/* bubbles */
+.msg {
+  padding: 12px 14px;
+  border-radius: 14px;
+  max-width: 80%;
+  line-height: 1.4;
+  white-space: pre-wrap;
+}
+
+.user {
+  align-self: flex-end;
+  background: #2b6fff;
+  color: white;
+}
+
+.ai {
+  align-self: flex-start;
+  background: #1a2235;
+  border: 1px solid #2a3550;
+}
+
+/* input bar */
 .input-box {
   display: flex;
   gap: 10px;
+  padding: 12px;
+  border-top: 1px solid #1c2333;
+  background: #0b0f19;
 }
 
 input {
   flex: 1;
-  padding: 10px;
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid #2a3550;
+  background: #121a2b;
+  color: white;
+  outline: none;
 }
 
 button {
-  padding: 10px 15px;
+  padding: 12px 16px;
+  border: none;
+  border-radius: 10px;
+  background: #2b6fff;
+  color: white;
   cursor: pointer;
+  transition: 0.2s;
+}
+
+button:hover {
+  background: #1f56d6;
 }
