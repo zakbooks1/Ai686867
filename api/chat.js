@@ -24,7 +24,7 @@ export default async function handler(req, res) {
         },
         body: JSON.stringify({
           // ✅ FIXED MODEL (your old one is dead)
-          model: "llama-3.1-8b-instant",
+          model: "llama-3.3-70b-versatile",
 
           messages: [
             {
