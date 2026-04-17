@@ -5,27 +5,8 @@ async function send() {
   const text = input.value.trim();
   if (!text) return;
 
-  // user message
-  messages.innerHTML += `
-    <div class="row user">
-      <div class="bubble">${text}</div>
-    </div>
-  `;
-
+  messages.innerHTML += `<div>You: ${text}</div>`;
   input.value = "";
-
-  // AI placeholder
-  const aiRow = document.createElement("div");
-  aiRow.className = "row ai";
-
-  const bubble = document.createElement("div");
-  bubble.className = "bubble";
-  bubble.textContent = "Thinking...";
-
-  aiRow.appendChild(bubble);
-  messages.appendChild(aiRow);
-
-  messages.scrollTop = messages.scrollHeight;
 
   const res = await fetch("/api/chat", {
     method: "POST",
@@ -37,6 +18,5 @@ async function send() {
 
   const data = await res.json();
 
-  bubble.textContent = data.reply;
-  messages.scrollTop = messages.scrollHeight;
+  messages.innerHTML += `<div>AI: ${data.reply}</div>`;
 }
