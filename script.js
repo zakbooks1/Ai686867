@@ -1,31 +1,47 @@
-async function send() {
-  const input = document.getElementById("input");
+function addMessage(role, text) {
   const messages = document.getElementById("messages");
 
-  const text = input.value.trim();
-  if (!text) return;
-
-  // USER MESSAGE
-  messages.innerHTML += `
-    <div class="row user">
-      <div class="bubble">${text}</div>
-    </div>
-  `;
-
-  input.value = "";
-
-  // AI LOADING MESSAGE
   const row = document.createElement("div");
-  row.className = "row ai";
+  row.className = "row " + role;
 
   const bubble = document.createElement("div");
   bubble.className = "bubble";
-  bubble.textContent = "Thinking...";
+
+  if (role === "ai") {
+    // Clean bad AI output
+    let clean = text;
+
+    clean = clean.replace(/\n[l|s]\n/g, "\n");
+    clean = clean.replace(/```(\w+)([^\n])/g, "```$1\n$2");
+
+    bubble.innerHTML = marked.parse(clean);
+
+    setTimeout(() => {
+      document.querySelectorAll("pre code").forEach(block => {
+        hljs.highlightElement(block);
+      });
+    }, 0);
+
+  } else {
+    bubble.textContent = text;
+  }
 
   row.appendChild(bubble);
   messages.appendChild(row);
-
   messages.scrollTop = messages.scrollHeight;
+
+  return bubble;
+}
+
+async function send() {
+  const input = document.getElementById("input");
+  const text = input.value.trim();
+  if (!text) return;
+
+  addMessage("user", text);
+  input.value = "";
+
+  const bubble = addMessage("ai", "Thinking...");
 
   try {
     const res = await fetch("/api/chat", {
@@ -38,23 +54,17 @@ async function send() {
 
     const data = await res.json();
 
- let clean = data.reply || "No response";
+    bubble.innerHTML = marked.parse(data.reply);
 
-// ❌ remove random letters like "l" or "s"
-clean = clean.replace(/\n[l|s]\n/g, "\n");
+    document.querySelectorAll("pre code").forEach(block => {
+      hljs.highlightElement(block);
+    });
 
-// ❌ fix broken code blocks
-clean = clean.replace(/```(\w+)([^\n])/g, "```$1\n$2");
-
-// ❌ remove duplicate labels like "HTML\n\n"
-clean = clean.replace(/HTML\s*\n+/gi, "## HTML\n");
-clean = clean.replace(/CSS\s*\n+/gi, "## CSS\n");
-
-// render markdown
-bubble.innerHTML = marked.parse(clean);
-  } catch (err) {
+  } catch {
     bubble.textContent = "Error connecting to AI.";
   }
+}
 
-  messages.scrollTop = messages.scrollHeight;
+function newChat() {
+  document.getElementById("messages").innerHTML = "";
 }
