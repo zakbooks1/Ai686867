@@ -38,18 +38,20 @@ async function send() {
 
     const data = await res.json();
 
-    // 🧠 CLEAN BAD OUTPUT
-    let clean = data.reply || "No response";
+ let clean = data.reply || "No response";
 
-    // Fix empty html code blocks
-    clean = clean.replace(/```html\s*```/g, "```html\n<!-- empty -->\n```");
+// ❌ remove random letters like "l" or "s"
+clean = clean.replace(/\n[l|s]\n/g, "\n");
 
-    // Fix missing spacing after code block language
-    clean = clean.replace(/```(\w+)([^\n])/g, "```$1\n$2");
+// ❌ fix broken code blocks
+clean = clean.replace(/```(\w+)([^\n])/g, "```$1\n$2");
 
-    // Render markdown (requires marked.js in HTML)
-    bubble.innerHTML = marked.parse(clean);
+// ❌ remove duplicate labels like "HTML\n\n"
+clean = clean.replace(/HTML\s*\n+/gi, "## HTML\n");
+clean = clean.replace(/CSS\s*\n+/gi, "## CSS\n");
 
+// render markdown
+bubble.innerHTML = marked.parse(clean);
   } catch (err) {
     bubble.textContent = "Error connecting to AI.";
   }
