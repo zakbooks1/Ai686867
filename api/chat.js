@@ -51,7 +51,7 @@ Example:
 \`\`\`css
 body { }
 \`\`\`
-``
+`
             },
             {
               role: "user",
